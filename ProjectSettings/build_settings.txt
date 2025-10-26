@@ -1,0 +1,45 @@
+# Unity Build Settings
+
+This file contains the build settings for the Snake Game Unity project.
+
+## Build Configuration
+- Platform: Standalone (Windows, macOS, Linux)
+- Architecture: x64
+- Scripting Backend: Mono
+- Api Compatibility Level: .NET Standard 2.1
+
+## Build Settings
+- Development Build: False
+- Script Debugging: False
+- Deep Profiling Support: False
+- Scripts Only Build: False
+- Compression Method: Default
+
+## Player Settings
+- Company Name: Snake Game Team
+- Product Name: Snake Game
+- Version: 1.0.0
+- Default Icon: None (uses Unity default)
+- Default Cursor: None (uses Unity default)
+
+## Resolution and Presentation
+- Default Screen Width: 800
+- Default Screen Height: 600
+- Fullscreen Mode: Windowed
+- Default Is Full Screen: False
+- Run In Background: True
+- Capture Single Screen: False
+- Use Player Log: True
+
+## Splash Screen
+- Show Unity Logo: True
+- Draw Mode: All Sequential
+- Logo Style: Light On Dark
+- Animation: Static
+- Background Color: Black
+
+## Other Settings
+- Color Space: Linear
+- Graphics APIs: Direct3D11, Direct3D12 (Windows), Metal (macOS), OpenGL (Linux)
+- Stereo Rendering Mode: Single Pass
+- Virtual Reality Supported: False

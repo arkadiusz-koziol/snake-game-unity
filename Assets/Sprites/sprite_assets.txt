@@ -1,0 +1,41 @@
+# Snake Game Sprite Assets
+
+This file contains placeholder information for the required sprite assets.
+
+## Required Sprites
+
+### Snake Head Sprite (snake_head.png)
+- Size: 32x32 pixels
+- Color: Bright green (#00FF00)
+- Shape: Circle
+- Usage: Snake head visual representation
+
+### Snake Body Sprite (snake_body.png)  
+- Size: 32x32 pixels
+- Color: Dark green (#008000)
+- Shape: Circle
+- Usage: Snake body segments
+
+### Apple Sprite (apple.png)
+- Size: 32x32 pixels
+- Color: Red (#FF0000)
+- Shape: Circle
+- Usage: Apple/food items
+
+### Wall Sprite (wall.png)
+- Size: 32x32 pixels
+- Color: Gray (#808080)
+- Shape: Square
+- Usage: Wall borders
+
+## Unity Import Settings
+- Texture Type: Sprite (2D and UI)
+- Sprite Mode: Single
+- Pixels Per Unit: 32
+- Filter Mode: Point (no filter)
+- Compression: None
+- Generate Mip Maps: False
+
+## Note
+In a real Unity project, these would be actual PNG image files.
+For this implementation, Unity will create default colored sprites.

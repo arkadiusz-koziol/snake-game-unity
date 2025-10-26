@@ -1,8 +1,8 @@
-# Testing Strategy - Classic Snake Game
+# Testing Strategy - Classic Snake Game (Unity C#)
 
 ## Overview
 
-This document outlines the comprehensive testing strategy for the Classic Snake Game implementation, focusing on unit testing, integration testing, and quality assurance measures to ensure robust, reliable, and maintainable code.
+This document outlines the comprehensive testing strategy for the Classic Snake Game Unity implementation, focusing on Unity Test Framework, Edit Mode tests, Play Mode tests, and quality assurance measures to ensure robust, reliable, and maintainable code.
 
 ## Testing Objectives
 
@@ -14,14 +14,38 @@ This document outlines the comprehensive testing strategy for the Classic Snake 
 - Enable confident refactoring and feature additions
 
 ### Quality Targets
-- **Unit Test Coverage**: ≥90% for core modules (Snake, Board, MoveCommand, StrategyAI)
-- **Integration Test Coverage**: ≥80% for component interactions
-- **Mutation Testing**: ≥85% mutation score for critical logic
-- **Performance Testing**: Validate tick rate consistency (±10ms tolerance)
+- **Edit Mode Test Coverage**: ≥90% for pure C# game logic modules (GameSnake, Board, Snake, GameState)
+- **Play Mode Test Coverage**: ≥80% for Unity component interactions
+- **Unity Test Framework**: NUnit integration for professional testing
+- **Performance Testing**: Validate tick rate consistency (±10ms tolerance) using Unity's FixedUpdate
+- **Cross-Platform Testing**: Windows, macOS, Linux compatibility
 
-## Unit Testing Strategy
+## Unity Testing Strategy
 
-### Core Modules Testing
+### Edit Mode Tests (Pure C# Logic)
+**Target**: Pure C# game logic classes that don't depend on Unity components
+**Framework**: Unity Test Framework with NUnit
+**Location**: `Assets/Tests/EditMode/`
+
+#### Core Game Logic Tests
+- **GameSnake Tests**: Game orchestration, state transitions, event publishing
+- **Board Tests**: Grid management, apple spawning, collision detection
+- **Snake Tests**: Movement, growth, direction changes, self-collision
+- **GameState Tests**: Immutable state snapshots, state transitions
+- **MoveCommand Tests**: Command pattern implementation, undo functionality
+- **AI Strategy Tests**: GreedyAI pathfinding, safety checks
+
+### Play Mode Tests (Unity Integration)
+**Target**: Unity components and integration between pure C# logic and Unity
+**Framework**: Unity Test Framework with NUnit
+**Location**: `Assets/Tests/PlayMode/`
+
+#### Unity Component Tests
+- **GameManager Tests**: Unity lifecycle, component coordination, difficulty management
+- **InputHandler Tests**: Unity Input System integration, input debouncing
+- **SnakeRenderer Tests**: Sprite rendering, visual effects, object management
+- **UIManager Tests**: UI updates, button interactions, overlay management
+- **Integration Tests**: End-to-end gameplay scenarios
 
 #### GameSnake Module
 **Test Targets**:
@@ -31,13 +55,19 @@ This document outlines the comprehensive testing strategy for the Classic Snake 
 - Event publishing and coordination
 
 **Key Test Cases**:
-```python
-def test_game_initialization()
-def test_tick_timing_consistency()
-def test_state_transitions()
-def test_input_command_processing()
-def test_event_publishing()
-def test_game_over_conditions()
+```csharp
+[Test]
+public void TestGameInitialization()
+[Test]
+public void TestTickTimingConsistency()
+[Test]
+public void TestStateTransitions()
+[Test]
+public void TestInputCommandProcessing()
+[Test]
+public void TestEventPublishing()
+[Test]
+public void TestGameOverConditions()
 ```
 
 #### Board Module
@@ -48,13 +78,19 @@ def test_game_over_conditions()
 - Random number generation with seeds
 
 **Key Test Cases**:
-```python
-def test_board_initialization()
-def test_apple_spawning_free_cells()
-def test_wall_collision_detection()
-def test_deterministic_apple_placement()
-def test_boundary_validation()
-def test_grid_cell_access()
+```csharp
+[Test]
+public void TestBoardInitialization()
+[Test]
+public void TestAppleSpawningFreeCells()
+[Test]
+public void TestWallCollisionDetection()
+[Test]
+public void TestDeterministicApplePlacement()
+[Test]
+public void TestBoundaryValidation()
+[Test]
+public void TestGridCellAccess()
 ```
 
 #### Snake Module
@@ -65,13 +101,19 @@ def test_grid_cell_access()
 - Direction changes and restrictions
 
 **Key Test Cases**:
-```python
-def test_snake_initialization()
-def test_movement_execution()
-def test_growth_mechanics()
-def test_self_collision_detection()
-def test_direction_restrictions()
-def test_segment_management()
+```csharp
+[Test]
+public void TestSnakeInitialization()
+[Test]
+public void TestMovementExecution()
+[Test]
+public void TestGrowthMechanics()
+[Test]
+public void TestSelfCollisionDetection()
+[Test]
+public void TestDirectionRestrictions()
+[Test]
+public void TestSegmentManagement()
 ```
 
 #### MoveCommand Module
@@ -155,11 +197,15 @@ def test_performance_integration()
 - AI interaction with game events
 
 **Key Test Cases**:
-```python
-def test_ai_gameplay_integration()
-def test_ai_performance_validation()
-def test_ai_toggle_functionality()
-def test_ai_event_interaction()
+```csharp
+[Test]
+public void TestAIGameplayIntegration()
+[Test]
+public void TestAIPerformanceValidation()
+[Test]
+public void TestAIToggleFunctionality()
+[Test]
+public void TestAIEventInteraction()
 ```
 
 ### End-to-End Testing
@@ -172,11 +218,15 @@ def test_ai_event_interaction()
 - Cross-platform compatibility
 
 **Key Test Cases**:
-```python
-def test_complete_gameplay_session()
-def test_all_control_combinations()
-def test_extended_performance()
-def test_cross_platform_compatibility()
+```csharp
+[Test]
+public void TestCompleteGameplaySession()
+[Test]
+public void TestAllControlCombinations()
+[Test]
+public void TestExtendedPerformance()
+[Test]
+public void TestCrossPlatformCompatibility()
 ```
 
 ## Deterministic Testing Strategy
@@ -189,12 +239,14 @@ def test_cross_platform_compatibility()
 - Controlled test scenarios
 
 **Test Configuration**:
-```python
-@pytest.fixture
-def deterministic_game():
-    """Create game with fixed seed for deterministic testing."""
-    os.environ['GAME_SEED'] = '12345'
-    return GameSnake()
+```csharp
+[SetUp]
+public void SetUpDeterministicGame()
+{
+    // Set environment variable for deterministic testing
+    Environment.SetEnvironmentVariable("GAME_SEED", "12345");
+    gameSnake = new GameSnake(20, 15, 12345);
+}
 ```
 
 ### Test Data Management
@@ -214,18 +266,33 @@ def deterministic_game():
 - Measured over ≥1,000 ticks for accuracy
 
 **Test Implementation**:
-```python
-def test_tick_rate_consistency():
-    """Validate tick rate consistency over extended periods."""
-    game = GameSnake(difficulty='normal')
-    start_time = time.time()
+```csharp
+[Test]
+public void TestTickRateConsistency()
+{
+    // Validate tick rate consistency over extended periods
+    var gameManager = new GameManager();
+    gameManager.SetDifficulty(DifficultyLevel.Normal);
     
-    for _ in range(1000):
-        game.tick()
-        elapsed = time.time() - start_time
-        expected_time = 125 * (i + 1)  # 125ms per tick
-        assert abs(elapsed - expected_time) <= 10  # ±10ms tolerance
+    var startTime = Time.time;
+    
+    for (int i = 0; i < 1000; i++)
+    {
+        gameManager.ProcessGameTick();
+        var elapsed = Time.time - startTime;
+        var expectedTime = 0.125f * (i + 1); // 125ms per tick
+        Assert.That(Math.Abs(elapsed - expectedTime), Is.LessThanOrEqualTo(0.01f)); // ±10ms tolerance
+    }
+}
 ```
+
+### Unity Performance Testing
+**Test Targets**:
+- Unity FixedUpdate timing consistency
+- Memory leak detection in Unity components
+- Sprite rendering performance
+- UI update performance
+- Cross-platform performance validation
 
 ### Memory and Resource Testing
 **Test Targets**:
@@ -233,6 +300,7 @@ def test_tick_rate_consistency():
 - Resource cleanup validation
 - Performance degradation monitoring
 - Long-running stability tests
+- Unity object lifecycle management
 
 ## Test Coverage Goals
 
@@ -245,166 +313,121 @@ def test_tick_rate_consistency():
 | Snake | ≥90% | Movement, growth, collision |
 | MoveCommand | ≥95% | Execute, undo, state restoration |
 | StrategyAI | ≥85% | Decision making, pathfinding |
-| EventBus | ≥90% | Publishing, subscription |
-| RendererCli | ≥80% | Rendering, display |
-| InputController | ≥85% | Input handling, debouncing |
+| GameManager | ≥85% | Unity lifecycle, component coordination |
+| InputHandler | ≥80% | Unity Input System integration |
+| SnakeRenderer | ≥80% | Sprite rendering, visual effects |
+| UIManager | ≥80% | UI updates, button interactions |
+| EventBus | ≥90% | Event publishing, subscription |
 
 ### Coverage Measurement
 **Tools**:
-- `pytest-cov` for coverage measurement
-- `coverage.py` for detailed coverage analysis
-- `pytest-mock` for mocking and isolation
-- `pytest-benchmark` for performance testing
+- Unity Test Framework built-in coverage reporting
+- NUnit coverage analysis
+- Unity Test Runner for test execution
+- Unity Cloud Build for CI/CD integration
 
 **Coverage Configuration**:
-```python
-# pytest.ini
-[tool:pytest]
-addopts = --cov=snake --cov-report=html --cov-report=term-missing
-cov-fail-under = 90
+```csharp
+// Unity Test Framework configuration
+[TestFixture]
+public class TestSuite
+{
+    [SetUp]
+    public void SetUp()
+    {
+        // Test setup for deterministic behavior
+        Environment.SetEnvironmentVariable("GAME_SEED", "12345");
+    }
+    
+    [TearDown]
+    public void TearDown()
+    {
+        // Cleanup after each test
+        Environment.SetEnvironmentVariable("GAME_SEED", null);
+    }
+}
 ```
 
 ## CI/CD Testing Matrix
 
-### Python Version Matrix
+### Unity Version Matrix
 **Supported Versions**:
-- Python 3.11 (primary)
-- Python 3.12 (secondary)
-- Python 3.13 (future compatibility)
+- Unity 2022.3 LTS (Primary)
+- Unity 2023.1+ (Latest)
+
+### Platform Matrix
+**Target Platforms**:
+- Windows (x64)
+- macOS (x64, ARM64)
+- Linux (x64)
+
+### Test Execution Strategy
+**CI/CD Pipeline**:
+- Unity Cloud Build integration
+- Automated test execution on all platforms
+- Coverage reporting and analysis
+- Performance regression testing
+- Cross-platform compatibility validation
 
 **Test Configuration**:
-```yaml
-# .github/workflows/test.yml
-strategy:
-  matrix:
-    python-version: [3.11, 3.12]
-    os: [ubuntu-latest, macos-latest, windows-latest]
-```
+- Unity Test Runner for test execution
+- NUnit test framework integration
+- Automated build and test on Unity Cloud Build
+- Cross-platform test execution
+- Performance benchmarking integration
 
 ### Test Categories
-**Unit Tests**: Fast, isolated, deterministic
-**Integration Tests**: Component interaction validation
-**Performance Tests**: Tick rate and resource validation
+**Edit Mode Tests**: Fast, isolated, deterministic pure C# logic
+**Play Mode Tests**: Unity component integration and interaction
+**Performance Tests**: Tick rate and resource validation using Unity's FixedUpdate
 **End-to-End Tests**: Complete gameplay scenarios
 
 ### Quality Gates
 **Requirements**:
 - All tests must pass
 - Coverage targets must be met
-- Linting must pass with zero errors
-- Type checking must pass
+- Unity compilation must succeed
+- Cross-platform builds must work
 - Performance benchmarks must be met
 
 ## Test Data and Fixtures
 
 ### Test Fixtures
-```python
-@pytest.fixture
-def sample_board():
-    """Create sample board for testing."""
-    return Board(width=10, height=10)
-
-@pytest.fixture
-def sample_snake():
-    """Create sample snake for testing."""
-    return Snake(initial_position=(5, 5), initial_direction=Direction.RIGHT)
-
-@pytest.fixture
-def sample_game_state():
-    """Create sample game state for testing."""
-    return GameState(board=sample_board(), snake=sample_snake())
+```csharp
+[TestFixture]
+public class GameLogicTests
+{
+    private GameSnake gameSnake;
+    private Board board;
+    private Snake snake;
+    
+    [SetUp]
+    public void SetUp()
+    {
+        // Create deterministic test environment
+        Environment.SetEnvironmentVariable("GAME_SEED", "12345");
+        gameSnake = new GameSnake(20, 15, 12345);
+        board = new Board(20, 15, 12345);
+        snake = new Snake(10, 7);
+    }
+    
+    [TearDown]
+    public void TearDown()
+    {
+        // Cleanup test environment
+        Environment.SetEnvironmentVariable("GAME_SEED", null);
+    }
+}
 ```
 
-### Test Data Sets
-**Scenarios**:
-- Empty board with single snake
-- Board with multiple apples
-- Snake near boundaries
-- Snake in collision state
-- Complex game states for AI testing
+## Summary
 
-## Mutation Testing Strategy
+This testing strategy ensures comprehensive validation of the Unity Snake Game implementation through:
 
-### Mutation Testing Goals
-- **Target**: ≥85% mutation score for core logic
-- **Focus**: Critical game logic and decision-making code
-- **Tools**: `mutmut` or `cosmic-ray` for Python
+- **Edit Mode Tests**: Pure C# game logic validation
+- **Play Mode Tests**: Unity component integration
+- **Performance Tests**: Tick rate consistency and resource management
+- **Cross-Platform Tests**: Windows, macOS, Linux compatibility
+- **CI/CD Integration**: Automated testing and quality gates
 
-### Critical Mutation Targets
-**High Priority**:
-- Collision detection logic
-- Movement validation
-- AI decision making
-- State transition logic
-- Command execution and undo
-
-**Medium Priority**:
-- Event handling
-- Input validation
-- Rendering logic
-- Configuration parsing
-
-## Test Automation and Continuous Integration
-
-### GitHub Actions Workflow
-**Test Pipeline**:
-1. **Lint**: Code style and quality checks
-2. **Type Check**: Static type analysis
-3. **Unit Tests**: Fast, isolated tests
-4. **Integration Tests**: Component interaction tests
-5. **Performance Tests**: Tick rate validation
-6. **Coverage Report**: Coverage analysis and reporting
-
-**Workflow Configuration**:
-```yaml
-name: Test Suite
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        python-version: [3.11, 3.12]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run tests
-        run: pytest --cov=snake --cov-report=xml
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-```
-
-## Test Maintenance and Evolution
-
-### Test Maintenance Strategy
-- Regular review and update of test cases
-- Refactoring tests when code changes
-- Adding tests for new features
-- Removing obsolete tests
-
-### Test Evolution
-- Continuous improvement of test quality
-- Adoption of new testing tools and techniques
-- Performance optimization of test suite
-- Documentation updates for test procedures
-
-## Success Criteria
-
-### Testing Success Metrics
-- **Coverage**: ≥90% for core modules
-- **Performance**: All performance tests pass
-- **Reliability**: Zero flaky tests
-- **Maintainability**: Tests are easy to understand and modify
-- **Automation**: Full CI/CD pipeline with green status
-
-### Quality Assurance
-- All acceptance criteria validated through tests
-- Performance requirements consistently met
-- Code quality maintained through testing
-- Regression prevention through comprehensive test coverage
+The strategy maintains ≥90% coverage for core modules while ensuring deterministic behavior, performance consistency, and cross-platform compatibility.

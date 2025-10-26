@@ -1,0 +1,38 @@
+# UI Prefab Structure
+
+This file describes the UI prefab structure for the Snake game.
+
+## Main UI Canvas
+- Canvas (Screen Space - Overlay)
+  - GameUI Panel
+    - ScoreText (Text)
+    - LengthText (Text)  
+    - SpeedText (Text)
+    - StatusText (Text)
+    - PauseButton (Button)
+    - ResumeButton (Button)
+    - RestartButton (Button)
+  - PauseOverlay Panel
+    - PauseText (Text)
+    - ResumeButton (Button)
+  - GameOverOverlay Panel
+    - GameOverText (Text)
+    - FinalScoreText (Text)
+    - RestartButton (Button)
+    - QuitButton (Button)
+
+## UI Components
+- ScoreText: Displays current score
+- LengthText: Displays snake length
+- SpeedText: Displays current difficulty/speed
+- StatusText: Displays game state (Running/Paused/Game Over)
+- PauseButton: Pauses the game
+- ResumeButton: Resumes the game
+- RestartButton: Restarts the game
+- QuitButton: Quits the application
+
+## UI Layout
+- Top-left: Score and length information
+- Top-right: Speed and status information
+- Center: Game board area
+- Overlays: Pause and Game Over screens
