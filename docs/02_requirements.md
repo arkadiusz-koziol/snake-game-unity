@@ -90,20 +90,24 @@
 ### Performance Requirements
 - **Tick Rate Consistency**: ±10ms tolerance for all difficulty levels
 - **Memory Stability**: No memory leaks during extended play
-- **Input Responsiveness**: <50ms input latency
-- **Rendering Performance**: Smooth 60fps equivalent updates
+- **Input Responsiveness**: <16ms input latency for smooth gameplay
+- **Rendering Performance**: Maintain 60 FPS with smooth visual updates
+- **Unity Optimization**: Efficient use of Unity's rendering pipeline
 
 ### Testing Requirements
 - **Deterministic Behavior**: Configurable RNG seed for reproducible tests
 - **Test Coverage**: ≥90% coverage for core modules
-- **Unit Tests**: Comprehensive test suite for all components
+- **Unity Test Framework**: Use Unity Test Framework for comprehensive testing
+- **Edit Mode Tests**: Pure C# game logic testing without Unity dependencies
+- **Play Mode Tests**: Unity component integration testing
 - **Integration Tests**: End-to-end gameplay testing
 
 ### Platform Requirements
-- **Primary Platform**: POSIX terminals (Linux/macOS)
-- **Secondary Platform**: Windows with windows-curses
-- **Python Version**: Minimum 3.11+
-- **Dependencies**: Minimal external dependencies
+- **Primary Platform**: Desktop (Windows, macOS, Linux)
+- **Unity Version**: Unity 2022.3 LTS or newer
+- **C# Version**: C# 9.0+ features supported
+- **Dependencies**: Minimal external dependencies beyond Unity
+- **Build Targets**: Standalone builds for all supported platforms
 
 ## Configuration Options
 

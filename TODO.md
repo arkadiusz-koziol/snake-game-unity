@@ -1,4 +1,4 @@
-# TODO.md - Snake Game Implementation Tasks
+# TODO.md - Snake Game Implementation Tasks (Unity C#)
 
 ## Table of Contents
 
@@ -11,22 +11,22 @@
 - [x] 6. [Create Delivery Plan](#6-create-delivery-plan)
 
 ### Phase II - Implement Core Engine & Minimal Play Loop
-- [ ] 7. [Create Project Scaffold](#7-create-project-scaffold)
-- [ ] 8. [Implement Core Game Engine](#8-implement-core-game-engine)
+- [ ] 7. [Create Unity Project Structure](#7-create-unity-project-structure)
+- [ ] 8. [Implement Core Game Engine (C#)](#8-implement-core-game-engine-c)
 - [ ] 9. [Implement Movement System](#9-implement-movement-system)
 - [ ] 10. [Implement Apple Spawning & Eating](#10-implement-apple-spawning--eating)
 - [ ] 11. [Implement Collision Detection](#11-implement-collision-detection)
 - [ ] 12. [Implement Basic Controls](#12-implement-basic-controls)
 - [ ] 13. [Implement Tick Rate Management](#13-implement-tick-rate-management)
 - [ ] 14. [Implement Deterministic Behavior](#14-implement-deterministic-behavior)
-- [ ] 15. [Create Runnable Application](#15-create-runnable-application)
+- [ ] 15. [Create Runnable Unity Application](#15-create-runnable-unity-application)
 
 ### Phase III - Add Features (Undo, Observer Events, AI, Config, UX)
 - [ ] 16. [Implement Observer Events](#16-implement-observer-events)
 - [ ] 17. [Implement Undo Functionality](#17-implement-undo-functionality)
 - [ ] 18. [Implement Strategy AI](#18-implement-strategy-ai)
 - [ ] 19. [Implement Configuration System](#19-implement-configuration-system)
-- [ ] 20. [Enhance Renderer with Header Panel](#20-enhance-renderer-with-header-panel)
+- [ ] 20. [Enhance Unity Renderer with UI](#20-enhance-unity-renderer-with-ui)
 - [ ] 21. [Implement Input Debouncing](#21-implement-input-debouncing)
 
 ### Phase IV - Finalize, Harden, and Document
@@ -34,7 +34,7 @@
 - [ ] 23. [Validate Performance Requirements](#23-validate-performance-requirements)
 - [ ] 24. [Achieve Test Coverage Goals](#24-achieve-test-coverage-goals)
 - [ ] 25. [Complete Documentation](#25-complete-documentation)
-- [ ] 26. [Setup Packaging](#26-setup-packaging)
+- [ ] 26. [Setup Unity Packaging](#26-setup-unity-packaging)
 - [ ] 27. [Implement CI/CD Pipeline](#27-implement-cicd-pipeline)
 - [ ] 28. [Quality Gate Validation](#28-quality-gate-validation)
 
@@ -110,49 +110,59 @@
 
 ### Phase II - Implement Core Engine & Minimal Play Loop
 
-### 7. Create Project Scaffold
+### 7. Create Unity Project Structure
 
 **Category:** Phase II  
-**Description:** Create the basic project structure with required modules and packages.  
+**Description:** Create the Unity project structure with proper C# architecture and folder organization.  
 **Acceptance Criteria:**
-- Create `snake/` package with modules:
-  - `engine/game_snake.py`, `engine/board.py`, `engine/snake.py`, `engine/commands.py`, `engine/state.py`
-  - `io/renderer_cli.py`, `io/input_controller.py`
-  - `events/event_bus.py` (may emit minimal events or stubs)
-  - `ai/strategy.py` (interface only)
-- All modules have proper imports and basic structure
+- Create Unity project with proper folder structure:
+  - `Assets/Scripts/GameLogic/` for pure C# game logic
+  - `Assets/Scripts/UnityComponents/` for Unity-specific components
+  - `Assets/Scripts/Events/` for event system
+  - `Assets/Scripts/AI/` for AI strategies
+  - `Assets/Scripts/Configuration/` for configuration system
+  - `Assets/Prefabs/` for game object prefabs
+  - `Assets/Scenes/` for Unity scenes
+  - `Assets/Sprites/` for game sprites
+  - `Assets/Audio/` for sound effects
+  - `Assets/Tests/` for test assemblies
+- All scripts have proper namespaces and basic structure
+- Unity project settings configured for desktop builds
 
-### 8. Implement Core Game Engine
+### 8. Implement Core Game Engine (C#)
 
 **Category:** Phase II  
-**Description:** Implement the core game engine classes: GameSnake, Board, Snake, and GameState.  
+**Description:** Implement the core game engine classes in C#: GameSnake, Board, Snake, and GameState.  
 **Acceptance Criteria:**
 - Implement `GameSnake` class for game orchestration
 - Implement `Board` class for grid management and apple placement
 - Implement `Snake` class for segment management and movement
 - Implement `GameState` class for immutable state snapshots
-- All classes have proper type hints and basic functionality
+- All classes have proper C# type hints and basic functionality
+- Classes follow Unity coding standards and best practices
 
 ### 9. Implement Movement System
 
 **Category:** Phase II  
-**Description:** Implement snake movement with arrow keys or WASD, preventing 180° reversal within same tick.  
+**Description:** Implement snake movement with Unity Input System, preventing 180° reversal within same tick.  
 **Acceptance Criteria:**
 - Snake moves one cell per tick in pressed direction
 - Cannot reverse 180° within the same tick
-- Supports both arrow keys and W/A/S/D
+- Supports both arrow keys and W/A/S/D using Unity Input System
 - Movement is smooth and responsive
+- Input handling uses Unity's modern Input System
 
 ### 10. Implement Apple Spawning & Eating
 
 **Category:** Phase II  
 **Description:** Implement apple spawning on free cells and eating mechanics with score and growth.  
 **Acceptance Criteria:**
-- Apples spawn on free cells when head enters *
+- Red circle sprites spawn on free cells when head enters position
 - Score increases by 1 per apple eaten
 - Snake length increases by 1 on next tick after eating
 - New apple spawns on free cell after eating
 - Works with deterministic RNG seed
+- Visual feedback with smooth animations
 
 ### 11. Implement Collision Detection
 
@@ -162,28 +172,32 @@
 - Wall collision detection at board borders
 - Self-collision detection when head hits body
 - Game state switches to GAME_OVER on collision
-- Visible "Game Over" banner is rendered
+- Visible "Game Over" UI message is displayed
 - No wrap-around behavior
+- Visual effects (particle systems, screen shake) on collision
 
 ### 12. Implement Basic Controls
 
 **Category:** Phase II  
-**Description:** Implement basic game controls: P for pause/resume, Q for quit with terminal restoration.  
+**Description:** Implement basic game controls: P for pause/resume, Escape for quit with proper Unity cleanup.  
 **Acceptance Criteria:**
 - P key pauses/resumes game
-- Q key quits and restores terminal
+- Escape key quits and performs proper Unity cleanup
 - Controls work during gameplay
-- Terminal state is properly restored on quit
+- Unity application state is properly managed on quit
+- UI reflects current control state
 
 ### 13. Implement Tick Rate Management
 
 **Category:** Phase II  
-**Description:** Implement tick rate management with Normal difficulty at 125ms/tick (±10ms tolerance).  
+**Description:** Implement tick rate management using Unity's FixedUpdate and Coroutines.  
 **Acceptance Criteria:**
-- Normal difficulty: 125ms/tick (±10ms tolerance)
+- Normal difficulty: 125ms/tick (8 FPS) (±10ms tolerance)
+- Easy difficulty: 200ms/tick (5 FPS)
+- Hard difficulty: 80ms/tick (12.5 FPS)
 - Measured over 200 ticks for accuracy
-- Tick timing is consistent and stable
-- Performance remains steady
+- Tick timing is consistent and stable using Unity's FixedUpdate
+- Performance remains steady across different frame rates
 
 ### 14. Implement Deterministic Behavior
 
@@ -195,16 +209,17 @@
 - Deterministic behavior works for testing
 - Same seed produces identical game behavior
 
-### 15. Create Runnable Application
+### 15. Create Runnable Unity Application
 
 **Category:** Phase II  
-**Description:** Create a runnable application that can be started with `python -m snake` or `python main.py`.  
+**Description:** Create a runnable Unity application that can be built and run on target platforms.  
 **Acceptance Criteria:**
-- Application starts with `python -m snake` or `python main.py`
-- README quickstart works
-- Clean startup/shutdown
-- No uncaught exceptions
-- Terminal state restored on exit
+- Unity project builds successfully for Windows, macOS, and Linux
+- Application starts and runs without errors
+- Clean startup/shutdown with proper Unity lifecycle management
+- No uncaught exceptions during normal operation
+- Unity application state properly managed on exit
+- Build settings configured for desktop platforms
 
 ### Phase III - Add Features (Undo, Observer Events, AI, Config, UX)
 
