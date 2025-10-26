@@ -40,6 +40,7 @@ namespace SnakeGame.UnityComponents
             }
             
             SetupMenuButtons();
+            CreateUIElementsIfNeeded();
             ShowMainMenu();
             
             Debug.Log("GUI Menu initialized - ready for user interaction");
@@ -74,6 +75,118 @@ namespace SnakeGame.UnityComponents
             if (backToMenuButton != null)
             {
                 backToMenuButton.onClick.AddListener(BackToMainMenu);
+            }
+        }
+        
+        private void CreateUIElementsIfNeeded()
+        {
+            // Find Canvas
+            Canvas canvas = FindObjectOfType<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("No Canvas found in scene!");
+                return;
+            }
+            
+            // Create MainMenuPanel if it doesn't exist
+            if (mainMenuPanel == null)
+            {
+                GameObject panel = new GameObject("MainMenuPanel");
+                panel.transform.SetParent(canvas.transform, false);
+                
+                // Add RectTransform
+                RectTransform rectTransform = panel.AddComponent<RectTransform>();
+                rectTransform.anchorMin = Vector2.zero;
+                rectTransform.anchorMax = Vector2.one;
+                rectTransform.sizeDelta = Vector2.zero;
+                rectTransform.anchoredPosition = Vector2.zero;
+                
+                // Add Image component
+                UnityEngine.UI.Image image = panel.AddComponent<UnityEngine.UI.Image>();
+                image.color = new Color(0, 0, 0.3f, 0.8f); // Dark blue
+                
+                mainMenuPanel = panel;
+                Debug.Log("Created MainMenuPanel programmatically");
+            }
+            
+            // Create StartGameButton if it doesn't exist
+            if (startGameButton == null)
+            {
+                GameObject button = new GameObject("StartGameButton");
+                button.transform.SetParent(mainMenuPanel.transform, false);
+                
+                // Add RectTransform
+                RectTransform rectTransform = button.AddComponent<RectTransform>();
+                rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+                rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+                rectTransform.sizeDelta = new Vector2(200, 50);
+                rectTransform.anchoredPosition = new Vector2(0, 50);
+                
+                // Add Image component
+                UnityEngine.UI.Image image = button.AddComponent<UnityEngine.UI.Image>();
+                image.color = Color.green;
+                
+                // Add Button component
+                UnityEngine.UI.Button buttonComponent = button.AddComponent<UnityEngine.UI.Button>();
+                
+                // Add Text
+                GameObject text = new GameObject("Text");
+                text.transform.SetParent(button.transform, false);
+                
+                RectTransform textRect = text.AddComponent<RectTransform>();
+                textRect.anchorMin = Vector2.zero;
+                textRect.anchorMax = Vector2.one;
+                textRect.sizeDelta = Vector2.zero;
+                textRect.anchoredPosition = Vector2.zero;
+                
+                UnityEngine.UI.Text textComponent = text.AddComponent<UnityEngine.UI.Text>();
+                textComponent.text = "START";
+                textComponent.fontSize = 24;
+                textComponent.color = Color.black;
+                textComponent.alignment = TextAnchor.MiddleCenter;
+                
+                startGameButton = buttonComponent;
+                Debug.Log("Created StartGameButton programmatically");
+            }
+            
+            // Create ExitButton if it doesn't exist
+            if (exitButton == null)
+            {
+                GameObject button = new GameObject("ExitButton");
+                button.transform.SetParent(mainMenuPanel.transform, false);
+                
+                // Add RectTransform
+                RectTransform rectTransform = button.AddComponent<RectTransform>();
+                rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+                rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+                rectTransform.sizeDelta = new Vector2(200, 50);
+                rectTransform.anchoredPosition = new Vector2(0, -50);
+                
+                // Add Image component
+                UnityEngine.UI.Image image = button.AddComponent<UnityEngine.UI.Image>();
+                image.color = Color.red;
+                
+                // Add Button component
+                UnityEngine.UI.Button buttonComponent = button.AddComponent<UnityEngine.UI.Button>();
+                
+                // Add Text
+                GameObject text = new GameObject("Text");
+                text.transform.SetParent(button.transform, false);
+                
+                RectTransform textRect = text.AddComponent<RectTransform>();
+                textRect.anchorMin = Vector2.zero;
+                textRect.anchorMax = Vector2.one;
+                textRect.sizeDelta = Vector2.zero;
+                textRect.anchoredPosition = Vector2.zero;
+                
+                UnityEngine.UI.Text textComponent = text.AddComponent<UnityEngine.UI.Text>();
+                textComponent.text = "STOP";
+                textComponent.fontSize = 24;
+                textComponent.color = Color.black;
+                textComponent.alignment = TextAnchor.MiddleCenter;
+                
+                exitButton = buttonComponent;
+                Debug.Log("Created ExitButton programmatically");
             }
         }
         
